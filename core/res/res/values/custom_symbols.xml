@@ -25,4 +25,8 @@
 
     <!-- The location of the devices physical tri state switch -->
     <java-symbol type="integer" name="config_alertSliderLocation" />
+
+    <!-- Button backlight -->
+    <java-symbol type="integer" name="config_deviceSupportsButtonBrightnessControl" />
+    <java-symbol type="dimen" name="config_buttonBrightnessSettingDefaultFloat" />
 </resources>

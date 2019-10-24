@@ -1262,6 +1262,7 @@ public class Build {
             }
 
             return result == 0;
+            return true;
         }
 
         final String system = SystemProperties.get("ro.system.build.fingerprint");
@@ -1284,7 +1285,7 @@ public class Build {
                         + " but vendor reported " + vendor);
                 return false;
             }
-        }
+        } */
 
         /* TODO: Figure out issue with checks failing
         if (!TextUtils.isEmpty(bootimage)) {

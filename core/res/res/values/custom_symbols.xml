@@ -26,4 +26,9 @@
    <!-- Settings Restart -->
    <java-symbol type="string" name="settings_restart_title" />
    <java-symbol type="string" name="settings_restart_message" />
+	
+    <!-- Light / Regular style fonts -->
+    <java-symbol type="string" name="config_lightFontFamily" />
+    <java-symbol type="string" name="config_regularFontFamily" />
+
 </resources>

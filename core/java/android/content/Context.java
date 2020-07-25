@@ -6442,6 +6442,15 @@ public abstract class Context {
     public static final String SHARED_CONNECTIVITY_SERVICE = "shared_connectivity";
 
     /**
+     * {@link android.hardware.display.DcDimmingManager} for accessing and setting locked apps state.
+     *
+     * @see #getSystemService(String)
+     * @see android.hardware.display.DcDimmingManager
+     * @hide
+     */
+    public static final String DC_DIM_SERVICE = "dc_dim";
+
+    /**
      * Determine whether the given permission is allowed for a particular
      * process and user ID running in the system.
      *

@@ -4733,6 +4733,12 @@ public final class Settings {
          */
         @Readable
         public static final String FOLD_LOCK_BEHAVIOR = "fold_lock_behavior_setting";
+        
+	/** 
+	 * Whether refresh rate should be switched to 60Hz on power save mode.
+         * @hide
+         */
+        public static final String LOW_POWER_REFRESH_RATE = "low_power_rr_switch";
 
         /**
          * The amount of time in milliseconds before the device goes to sleep or begins

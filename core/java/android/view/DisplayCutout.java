@@ -1056,11 +1056,19 @@ public final class DisplayCutout {
     public static DisplayCutout fromResourcesRectApproximation(Resources res,
             String displayUniqueId, int physicalDisplayWidth, int physicalDisplayHeight,
             int displayWidth, int displayHeight) {
-        return pathAndDisplayCutoutFromSpec(getDisplayCutoutPath(res, displayUniqueId),
-                getDisplayCutoutApproximationRect(res, displayUniqueId), physicalDisplayWidth,
-                physicalDisplayHeight, displayWidth, displayHeight,
-                DENSITY_DEVICE_STABLE / (float) DENSITY_DEFAULT,
-                getWaterfallInsets(res, displayUniqueId)).second;
+        try {
+            return pathAndDisplayCutoutFromSpec(getDisplayCutoutPath(res, displayUniqueId),
+                    getDisplayCutoutApproximationRect(res, displayUniqueId), physicalDisplayWidth,
+                    physicalDisplayHeight, displayWidth, displayHeight,
+                    DENSITY_DEVICE_STABLE / (float) DENSITY_DEFAULT,
+                    getWaterfallInsets(res, displayUniqueId)).second;
+        } catch(Throwable t) {
+            return pathAndDisplayCutoutFromSpec(getDisplayCutoutPath(res, displayUniqueId),
+                    null, physicalDisplayWidth,
+                    physicalDisplayHeight, displayWidth, displayHeight,
+                    DENSITY_DEVICE_STABLE / (float) DENSITY_DEFAULT,
+                    getWaterfallInsets(res, displayUniqueId)).second;
+        }
     }
 
     /**

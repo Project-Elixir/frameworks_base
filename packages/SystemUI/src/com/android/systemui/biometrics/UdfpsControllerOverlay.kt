@@ -126,7 +126,7 @@ class UdfpsControllerOverlay @JvmOverloads constructor(
     private val frameworkDimming = context.getResources().getBoolean(R.bool.config_udfpsFrameworkDimming)
 
     private val coreLayoutParams = WindowManager.LayoutParams(
-        WindowManager.LayoutParams.TYPE_NAVIGATION_BAR_PANEL,
+        WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY,
         0 /* flags set in computeLayoutParams() */,
         PixelFormat.TRANSLUCENT
     ).apply {

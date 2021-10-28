@@ -7439,5 +7439,8 @@ message MetricsEvent {
     // CustomSettings constant
     CUSTOM_SETTINGS = 1999;
 
+    // Elixir Metrics
+    ELIXIR_SETTINGS = 2100;
+
   }
 }

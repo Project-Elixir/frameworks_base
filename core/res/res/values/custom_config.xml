@@ -65,4 +65,7 @@
          to disable DC dimming -->
     <string name="config_deviceDcDimmingDisableValue">0</string>
 
+    <!-- Whether to cancel fingerprint operation if not idle -->
+    <bool name="config_fpCancelIfNotIdle">false</bool>
+
 </resources>

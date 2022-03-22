@@ -17,6 +17,7 @@
 package com.android.systemui.statusbar.phone;
 
 import static android.app.admin.DevicePolicyResources.Strings.SystemUi.STATUS_BAR_WORK_ICON_ACCESSIBILITY;
+import static android.bluetooth.BluetoothDevice.BATTERY_LEVEL_UNKNOWN;
 
 import android.annotation.Nullable;
 import android.app.ActivityTaskManager;
@@ -498,8 +499,12 @@ public class PhoneStatusBarPolicy
                     && (mBluetooth.isBluetoothAudioActive()
                     || !mBluetooth.isBluetoothAudioProfileOnly())) {
                 List<CachedBluetoothDevice> connectedDevices = mBluetooth.getConnectedDevices();
-                int batteryLevel = connectedDevices.isEmpty() ?
-                        -1 : connectedDevices.get(0).getBatteryLevel();
+                int batteryLevel = connectedDevices.isEmpty() ? BATTERY_LEVEL_UNKNOWN
+                        : connectedDevices.stream()
+                                          .mapToInt(device -> device.getBatteryLevel())
+                                          .filter(level -> level != BATTERY_LEVEL_UNKNOWN)
+                                          .findFirst()
+                                          .orElse(BATTERY_LEVEL_UNKNOWN);
                 if (batteryLevel == 100) {
                     iconId = R.drawable.stat_sys_data_bluetooth_connected_battery_10;
                 } else if (batteryLevel >= 90) {

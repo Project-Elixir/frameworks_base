@@ -4855,4 +4855,8 @@
   <java-symbol type="dimen" name="status_bar_height_default" />
 
   <java-symbol type="bool" name="system_server_plays_face_haptics" />
+
+  <!-- Light / Regular style fonts -->
+  <java-symbol type="string" name="config_lightFontFamily" />
+
 </resources>

@@ -11717,6 +11717,13 @@ public final class Settings {
         public static final String LOCK_SCREEN_WEATHER_ENABLED = "lockscreen_weather_enabled";
 
         /**
+         * Hide icons of Essence preferences
+         *
+         * @hide
+         */
+        public static final String HIDE_ESSENCE_ICONS = "hide_essence_icons";
+
+        /**
          * These entries are considered common between the personal and the managed profile,
          * since the managed profile doesn't get to change them.
          */

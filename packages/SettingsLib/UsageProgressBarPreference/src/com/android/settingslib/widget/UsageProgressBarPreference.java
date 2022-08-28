@@ -148,7 +148,7 @@ public class UsageProgressBarPreference extends Preference {
         holder.setDividerAllowedBelow(false);
 
         final TextView usageSummary = (TextView) holder.findViewById(R.id.usage_summary);
-        usageSummary.setText(enlargeFontOfNumber(mUsageSummary));
+        usageSummary.setText(mUsageSummary);
 
         final TextView totalSummary = (TextView) holder.findViewById(R.id.total_summary);
         if (mTotalSummary != null) {

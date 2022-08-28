@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="battery_full">#00C853</color>
-    <color name="battery_70">#63B81A</color>
-    <color name="battery_50">#FFE040</color>
-    <color name="battery_40">#FFAB00</color>
-    <color name="battery_35">#FD8E3B</color>
-    <color name="battery_low">#DB4437</color>
+    <color name="battery_full">@*android:color/system_accent1_600</color>
+    <color name="battery_70">@*android:color/system_accent1_500</color>
+    <color name="battery_50">@*android:color/system_accent1_400</color>
+    <color name="battery_40">@*android:color/system_accent1_300</color>
+    <color name="battery_35">@*android:color/system_accent1_200</color>
+    <color name="battery_low">@*android:color/system_accent1_100</color>
 </resources>

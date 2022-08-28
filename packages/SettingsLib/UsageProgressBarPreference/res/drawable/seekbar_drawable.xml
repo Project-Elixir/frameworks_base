@@ -18,13 +18,15 @@
     android:paddingMode="stack" >
     <item android:id="@android:id/background"
         android:gravity="center_vertical|fill_horizontal">
-        <shape android:shape="rectangle" android:tint="?android:attr/colorAccent">
-            <corners android:radius="20dp" />
-            <solid android:color="@drawable/accent_alpha_2"/>
+        <shape android:tint="?android:attr/colorAccent" android:shape="rectangle" android:alpha="0.2">
+            <corners android:radius="12dp" />
+            <solid android:color="#80626161" />
         </shape>
     </item>
     <item android:id="@android:id/progress"
         android:gravity="center_vertical|fill_horizontal" >
-        <clip android:drawable="@drawable/seekbar_progress"/>
+        <com.android.internal.graphics.drawable.RoundedCornerProgressDrawable
+          android:drawable="@drawable/seekbar_progress"
+        />
         </item>
 </layer-list>

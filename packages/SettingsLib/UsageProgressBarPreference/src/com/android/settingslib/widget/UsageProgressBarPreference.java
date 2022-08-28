@@ -176,19 +176,10 @@ public class UsageProgressBarPreference extends Preference {
             animator.start();
         }
 
-        if (mPercent >= 90) {
-            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_full));
-            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_full));
-        } else if (mPercent >= 75) {
-            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_70));
-            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_70));
-        } else if (mPercent >= 50) {
-            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_50));
-            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_50));
-        } else if (mPercent >= 35) {
-            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_35));
-            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_35));
-        } else if (mPercent >= 25 || mPercent >= 0) {
+        if (mPercent >= 20) {
+            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_high));
+            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_high));
+        } else if (mPercent <= 19) {
             progressBar.setProgressTintList(context.getColorStateList(R.color.battery_low));
             progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_low));
         }

@@ -50,4 +50,10 @@
     <!-- Whether key handler sends intent when changing slider position -->
     <string name="config_alertSliderIntent"></string>
 
+    <!-- Fingerprint from a certified device against current platform SPL level -->
+    <string name="config_certifiedFingerprint" translatable="false"></string>
+
+    <!-- Fingerprint from stock ROM -->
+    <string name="config_stockFingerprint" translatable="false"></string>
+
 </resources>

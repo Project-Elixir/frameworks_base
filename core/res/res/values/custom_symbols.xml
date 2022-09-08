@@ -46,4 +46,7 @@
     <!-- Fingerprint from stock ROM -->
     <java-symbol type="string" name="config_stockFingerprint" />
 
+    <!-- Whether to spoof device as Pixel XL for Google Photos -->
+    <java-symbol type="bool" name="config_spoofGooglePhotos" />
+
 </resources>

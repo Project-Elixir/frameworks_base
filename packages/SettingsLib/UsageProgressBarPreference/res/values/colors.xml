@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="battery_high">#2EC84E</color>
-    <color name="battery_low">#46181E</color>
-    <color name="battery_monet">@android:color/system_accent1_300</color>
+    <color name="battery_medium">#FFAE42</color>
+    <color name="battery_low">#DC143C</color>
 </resources>

@@ -176,13 +176,8 @@ public class UsageProgressBarPreference extends Preference {
             animator.start();
         }
 
-        if (mPercent >= 20) {
-            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_high));
-            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_high));
-        } else if (mPercent <= 19) {
-            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_low));
-            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_low));
-        }
+            progressBar.setProgressTintList(context.getColorStateList(R.color.battery_monet));
+            progressBar.setProgressBackgroundTintList(context.getColorStateList(R.color.battery_monet));
     }
 
     private CharSequence enlargeFontOfNumber(CharSequence summary) {

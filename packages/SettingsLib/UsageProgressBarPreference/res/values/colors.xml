@@ -2,4 +2,5 @@
 <resources>
     <color name="battery_high">#2EC84E</color>
     <color name="battery_low">#46181E</color>
+    <color name="battery_monet">@android:color/system_accent1_300</color>
 </resources>

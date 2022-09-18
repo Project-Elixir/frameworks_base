@@ -56,7 +56,8 @@
     <!-- Fingerprint from stock ROM -->
     <string name="config_stockFingerprint" translatable="false"></string>
 
-    <!-- Whether to spoof device as Pixel XL for Google Photos -->
-    <bool name="config_spoofGooglePhotos">false</bool>
+    <!-- Whether to spoof device as pixel for certain google apps, to
+         unlock pixel-exclusive features -->
+    <bool name="config_spoofGoogleApps">true</bool>
 
 </resources>

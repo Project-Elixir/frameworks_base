@@ -67,8 +67,20 @@ public class PropImitationHooks {
         "PIXEL_2021_EXPERIENCE",
         "PIXEL_2021_MIDYEAR_EXPERIENCE"
     };
-    private static final boolean sSpoofPhotos =
-            Resources.getSystem().getBoolean(R.bool.config_spoofGooglePhotos);
+
+    private static final String PACKAGE_VELVET = "com.google.android.quicksearchbox";
+    private static final Map<String, Object> sP5Props = new HashMap<>();
+    static {
+        sP5Props.put("BRAND", "google");
+        sP5Props.put("MANUFACTURER", "Google");
+        sP5Props.put("DEVICE", "redfin");
+        sP5Props.put("PRODUCT", "redfin");
+        sP5Props.put("MODEL", "Pixel 5");
+        sP5Props.put("FINGERPRINT", "google/redfin/redfin:12/SQ3A.220705.003.A1/8672226:user/release-keys");
+    }
+
+    private static final boolean sSpoofGapps =
+            Resources.getSystem().getBoolean(R.bool.config_spoofGoogleApps);
 
     private static volatile boolean sIsGms = false;
     private static volatile boolean sIsFinsky = false;
@@ -84,7 +96,7 @@ public class PropImitationHooks {
 
         sIsGms = packageName.equals(PACKAGE_GMS) && processName.equals(PROCESS_GMS_UNSTABLE);
         sIsFinsky = packageName.equals(PACKAGE_FINSKY);
-        sIsPhotos = sSpoofPhotos && packageName.equals(PACKAGE_GPHOTOS);
+        sIsPhotos = sSpoofGapps && packageName.equals(PACKAGE_GPHOTOS);
 
         if (!sCertifiedFp.isEmpty() && (sIsGms || sIsFinsky)) {
             dlog("Setting certified fingerprint for: " + packageName);
@@ -96,6 +108,9 @@ public class PropImitationHooks {
         } else if (sIsPhotos) {
             dlog("Spoofing Pixel XL for Google Photos");
             sP1Props.forEach((k, v) -> setPropValue(k, v));
+        } else if (sSpoofGapps && packageName.equals(PACKAGE_VELVET)) {
+            dlog("Spoofing Pixel 5 for Google app");
+            sP5Props.forEach((k, v) -> setPropValue(k, v));
         }
     }
 

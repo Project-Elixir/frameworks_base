@@ -60,4 +60,7 @@
          unlock pixel-exclusive features -->
     <bool name="config_spoofGoogleApps">true</bool>
 
+    <!-- Device model (Build.MODEL) to spoof for netflix, if not empty -->
+    <string name="config_netflixSpoofModel" translatable="false"></string>
+
 </resources>

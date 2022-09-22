@@ -17,4 +17,9 @@
 
     <!-- The list of package IDs that are not allowed to use aux cameras. -->
     <string-array name="config_cameraAuxPackageExcludeList" translatable="false" />
+	    
+   <!-- Settings Restart -->
+   <string name="settings_restart_title">Settings restart required</string>
+   <string name="settings_restart_message">For all changes to take effect, a Settings restart is required. Incase assests were not updated, you may need to manually Restart the Settings app, Soft Restart Settings now?</string>
+
 </resources>

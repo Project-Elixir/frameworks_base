@@ -38,4 +38,8 @@
     <!-- Whether to force enable multi resolution configuration for camera -->
     <bool name="config_forceMultiResolution">false</bool>
 
+   <!-- Settings Restart -->
+   <string name="settings_restart_title">Settings restart required</string>
+   <string name="settings_restart_message">For all changes to take effect, a Settings restart is required. Incase assests were not updated, you may need to manually Restart the Settings app, Soft Restart Settings now?</string>
+
 </resources>

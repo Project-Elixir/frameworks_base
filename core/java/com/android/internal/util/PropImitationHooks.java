@@ -102,7 +102,7 @@ public class PropImitationHooks {
         sIsFinsky = packageName.equals(PACKAGE_FINSKY);
         sIsPhotos = sSpoofGapps && packageName.equals(PACKAGE_GPHOTOS);
 
-        if (!sCertifiedFp.isEmpty() && (sIsGms || sIsFinsky)) {
+        if (!sCertifiedFp.isEmpty() && (sIsGms)) {
             dlog("Setting certified fingerprint for: " + packageName);
             setPropValue("FINGERPRINT", sCertifiedFp);
             setPropValue("MODEL", Build.MODEL + "\u200b");

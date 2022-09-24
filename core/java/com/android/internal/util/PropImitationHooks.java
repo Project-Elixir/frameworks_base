@@ -75,6 +75,15 @@ public class PropImitationHooks {
         sP5Props.put("MODEL", "Pixel 5");
         sP5Props.put("FINGERPRINT", "google/redfin/redfin:12/SQ3A.220705.003.A1/8672226:user/release-keys");
     }
+    private static final Map<String, Object> sP6Props = new HashMap<>();
+    static {
+        sP6Props.put("BRAND", "google");
+        sP6Props.put("MANUFACTURER", "Google");
+        sP6Props.put("DEVICE", "raven");
+        sP6Props.put("PRODUCT", "raven");
+        sP6Props.put("MODEL", "Pixel 6 Pro");
+        sP6Props.put("FINGERPRINT", "google/raven/raven:13/TP1A.220905.004/8927612:user/release-keys");
+    }
 
     private static final boolean sSpoofGapps =
             Resources.getSystem().getBoolean(R.bool.config_spoofGoogleApps);
@@ -112,9 +121,14 @@ public class PropImitationHooks {
         } else if (sSpoofGapps && packageName.equals(PACKAGE_VELVET)) {
             dlog("Spoofing Pixel 5 for Google app");
             sP5Props.forEach((k, v) -> setPropValue(k, v));
-        } else if (!sNetflixModel.isEmpty() && packageName.equals(PACKAGE_NETFLIX)) {
-            dlog("Setting model to " + sNetflixModel + " for Netflix");
-            setPropValue("MODEL", sNetflixModel);
+        } else if (packageName.equals(PACKAGE_NETFLIX)) {
+            if (!sNetflixModel.isEmpty()) {
+                dlog("Setting model to " + sNetflixModel + " for Netflix");
+                setPropValue("MODEL", sNetflixModel);
+            } else {
+                dlog("Setting default Pixel 6 Pro props for Netflix");
+                sP6Props.forEach((k, v) -> setPropValue(k, v));
+            }
         }
     }
 

@@ -19,6 +19,7 @@ package com.android.internal.util;
 import android.app.Application;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.SystemProperties;
 import android.util.Log;
 
 import com.android.internal.R;
@@ -84,6 +85,25 @@ public class PropImitationHooks {
         sP6Props.put("MODEL", "Pixel 6 Pro");
         sP6Props.put("FINGERPRINT", "google/raven/raven:13/TP1A.220905.004/8927612:user/release-keys");
     }
+    private static final Map<String, Object> sOP8Props = new HashMap<>();
+    static {
+        sOP8Props.put("MODEL", "IN2020");
+        sOP8Props.put("MANUFACTURER", "OnePlus");
+    }
+    
+    private static final String[] OP8Games = {
+        "com.tencent.ig",
+        "com.pubg.imobile",
+        "com.pubg.krmobile",
+        "com.pubg.newstate",
+        "com.vng.pubgmobile",
+        "com.rekoo.pubgm",
+        "com.tencent.tmgp.pubgmhd",
+        "com.riotgames.league.wildrift",
+        "com.riotgames.league.wildrifttw",
+        "com.riotgames.league.wildriftvn",
+        "com.netease.lztgglobal"
+    };
 
     private static final boolean sSpoofGapps =
             Resources.getSystem().getBoolean(R.bool.config_spoofGoogleApps);
@@ -129,7 +149,16 @@ public class PropImitationHooks {
                 dlog("Setting default Pixel 6 Pro props for Netflix");
                 sP6Props.forEach((k, v) -> setPropValue(k, v));
             }
+        } else if (isGamesPropEnabled()) {
+            if (Arrays.asList(OP8Games).contains(packageName))
+            {
+                sOP8Props.forEach((k, v) -> setPropValue(k, v));
+            }
         }
+    }
+
+    private static boolean isGamesPropEnabled() {
+        return SystemProperties.getBoolean("persist.sys.pixelprops.games", false);
     }
 
     private static void setPropValue(String key, Object value){

@@ -42,9 +42,6 @@
    <string name="settings_restart_title">Settings restart required</string>
    <string name="settings_restart_message">For all changes to take effect, a Settings restart is required. Incase assests were not updated, you may need to manually Restart the Settings app, Soft Restart Settings now?</string>
 
-    <!-- Fingerprint from a certified device against current platform SPL level -->
-    <string name="config_certifiedFingerprint" translatable="false"></string>
-
     <!-- Fingerprint from stock ROM -->
     <string name="config_stockFingerprint" translatable="false"></string>
 

@@ -152,6 +152,13 @@ public class HapticFeedbackConstants {
     public static final int ROTARY_SCROLL_LIMIT = 20;
 
     /**
+     * Oplus specific haptic effect
+     *
+     * @hide
+     */
+    public static final int GRANULAR_SHORT_VIBRATE = 302;
+
+    /**
      * The user has toggled a switch or button into the on position.
      */
     public static final int TOGGLE_ON = 21;

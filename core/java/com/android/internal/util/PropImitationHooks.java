@@ -40,6 +40,7 @@ public class PropImitationHooks {
     private static final String PACKAGE_ARCORE = "com.google.ar.core";
     private static final String PACKAGE_FINSKY = "com.android.vending";
     private static final String PACKAGE_GMS = "com.google.android.gms";
+    private static final String PACKAGE_WALLPAPERS = "com.google.android.apps.wallpaper";
     private static final String PROCESS_GMS_UNSTABLE = PACKAGE_GMS + ".unstable";
 
     private static final String PACKAGE_GPHOTOS = "com.google.android.apps.photos";
@@ -154,6 +155,9 @@ public class PropImitationHooks {
             {
                 sOP8Props.forEach((k, v) -> setPropValue(k, v));
             }
+        } else if (packageName.equals(PACKAGE_WALLPAPERS)) {
+            dlog("Setting Pixel 6 Pro props for Google Wallpapers");
+            sP6Props.forEach((k, v) -> setPropValue(k, v));
         }
     }
 

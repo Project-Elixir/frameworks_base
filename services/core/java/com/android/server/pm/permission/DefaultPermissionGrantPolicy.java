@@ -226,6 +226,11 @@ final class DefaultPermissionGrantPolicy {
         NOTIFICATION_PERMISSIONS.add(Manifest.permission.POST_NOTIFICATIONS);
     }
 
+    private static final Set<String> BLUETOOTH_PERMISSIONS = new ArraySet<>();
+    static {
+        BLUETOOTH_PERMISSIONS.add(Manifest.permission.BLUETOOTH_CONNECT);
+    }
+
     private static final int MSG_READ_DEFAULT_PERMISSION_EXCEPTIONS = 1;
 
     private static final String ACTION_TRACK = "com.android.fitness.TRACK";
@@ -579,6 +584,9 @@ final class DefaultPermissionGrantPolicy {
                 syncAdapterPackagesProvider.getPackages(ContactsContract.AUTHORITY, userId) : null;
         String[] calendarSyncAdapterPackages = (syncAdapterPackagesProvider != null) ?
                 syncAdapterPackagesProvider.getPackages(CalendarContract.AUTHORITY, userId) : null;
+
+        // AOSP Dialer app
+        grantPermissionsToSystemPackage(pm, "com.android.dialer", userId, BLUETOOTH_PERMISSIONS);
 
         // PermissionController
         grantSystemFixedPermissionsToSystemPackage(pm,

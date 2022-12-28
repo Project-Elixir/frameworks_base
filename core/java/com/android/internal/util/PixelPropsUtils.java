@@ -36,13 +36,46 @@ public class PixelPropsUtils {
     private static final boolean DEBUG = true;
     private static final boolean DEBUG_PACKAGES = false;
 
+    // Packages to Spoof as Pixel 7 Pro
+    private static final String[] sPixel7ProPackages = {
+        "com.google.android.apps.googleassistant",
+        "com.google.android.apps.nbu.files",
+        "com.google.android.apps.podcasts",
+        "com.google.android.apps.privacy.wildlife",
+        "com.google.android.apps.subscriptions.red",
+        "com.google.android.apps.tachyon",
+        "com.google.android.apps.wallpaper",
+        "com.google.android.contacts",
+        "com.google.android.deskclock",
+        "com.google.android.inputmethod.latin",
+        "com.amazon.avod.thirdpartyclient",
+        "com.android.chrome",
+        "com.android.vending",
+        "com.breel.wallpapers20",
+        "com.disney.disneyplus",
+        "com.microsoft.android.smsorganizer",
+        "com.netflix.mediaclient",
+        "com.nhs.online.nhsonline",
+        "com.nothing.smartcenter",
+        "in.startv.hotstar"
+};
+
     private static final Map<String, Object> sPixelProps = Map.of(
         "BRAND", "google",
         "MANUFACTURER", "Google",
         "DEVICE", "redfin",
         "PRODUCT", "redfin",
         "MODEL", "Pixel 5",
-        "FINGERPRINT", "google/redfin/redfin:13/TP1A.220624.014/8819323:user/release-keys"
+        "FINGERPRINT", "google/redfin/redfin:13/TQ1A.221205.011/9244662:user/release-keys"
+    );
+
+    private static final Map<String, Object> sPixel7Props = Map.of(
+        "BRAND", "google",
+        "MANUFACTURER", "Google",
+        "DEVICE", "cheetah",
+        "PRODUCT", "cheetah",
+        "MODEL", "Pixel 7 Pro",
+        "FINGERPRINT", "google/cheetah/cheetah:13/TQ1A.221205.011/9244662:user/release-keys"
     );
 
     private static final Map<String, Object> sPixelXLProps = Map.of(
@@ -118,6 +151,9 @@ public class PixelPropsUtils {
         } else if (sIsPhotos) {
             dlog("Spoofing Pixel XL for Google Photos");
             sPixelXLProps.forEach(PixelPropsUtils::setPropValue);
+        } else if ((Arrays.asList(sPixel7ProPackages).contains(packageName))) {
+            dlog("Spoofing Pixel 7 Pro");
+            sPixel7Props.forEach(PixelPropsUtils::setPropValue);
         } else if ((packageName.startsWith(PACKAGE_PREFIX_GOOGLE)
                 && !packageName.toLowerCase().contains("camera"))
                 || sExtraPackages.contains(packageName)) {

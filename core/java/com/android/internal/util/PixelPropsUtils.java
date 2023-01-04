@@ -66,7 +66,7 @@ public class PixelPropsUtils {
         "DEVICE", "redfin",
         "PRODUCT", "redfin",
         "MODEL", "Pixel 5",
-        "FINGERPRINT", "google/redfin/redfin:13/TQ1A.221205.011/9244662:user/release-keys"
+        "FINGERPRINT", "google/redfin/redfin:13/TQ1A.230105.001/9292298:user/release-keys"
     );
 
     private static final Map<String, Object> sPixel7Props = Map.of(
@@ -75,7 +75,7 @@ public class PixelPropsUtils {
         "DEVICE", "cheetah",
         "PRODUCT", "cheetah",
         "MODEL", "Pixel 7 Pro",
-        "FINGERPRINT", "google/cheetah/cheetah:13/TQ1A.221205.011/9244662:user/release-keys"
+        "FINGERPRINT", "google/cheetah/cheetah:13/TQ1A.230105.001.A2/9325679:user/release-keys"
     );
 
     private static final Map<String, Object> sPixelXLProps = Map.of(

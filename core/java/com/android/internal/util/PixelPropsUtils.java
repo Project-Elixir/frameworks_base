@@ -87,6 +87,14 @@ public class PixelPropsUtils {
         "FINGERPRINT", "google/marlin/marlin:10/QP1A.191005.007.A3/5972272:user/release-keys"
     );
 
+    private static final Map<String, Object> sPixelXLSFProps = Map.of(
+        "DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N_MR1,
+        "DEVICE", "marlin",
+        "PRODUCT", "marlin",
+        "MODEL", "Pixel XL",
+        "FINGERPRINT", "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys"
+    );
+
     private static final List<String> sExtraPackages = List.of(
         "com.android.chrome",
         "com.android.vending"
@@ -146,8 +154,7 @@ public class PixelPropsUtils {
 
         if (sIsGms) {
             dlog("Spoofing build for GMS");
-            setPropValue("FINGERPRINT", GMS_FINGERPRINT);
-            setPropValue("MODEL", Build.MODEL + "\u200b");
+            sPixelXLSFProps.forEach(PixelPropsUtils::setPropValue);
         } else if (sIsPhotos) {
             dlog("Spoofing Pixel XL for Google Photos");
             sPixelXLProps.forEach(PixelPropsUtils::setPropValue);

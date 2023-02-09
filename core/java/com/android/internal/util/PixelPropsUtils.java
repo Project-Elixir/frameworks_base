@@ -23,12 +23,15 @@ import android.app.Application;
 import android.app.TaskStackListener;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Binder;
 import android.os.Process;
 import android.os.SystemProperties;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.internal.R;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -45,6 +48,9 @@ public class PixelPropsUtils {
     private static final boolean DEBUG = true;
     private static final boolean DEBUG_KEYS = false;
     private static final boolean DEBUG_PACKAGES = false;
+
+    private static final String[] sCertifiedProps =
+            Resources.getSystem().getStringArray(R.array.config_certifiedBuildProperties);
 
     // Packages to Spoof as Pixel 7 Pro
     private static final String[] sPixel7ProPackages = {
@@ -101,10 +107,6 @@ public class PixelPropsUtils {
     private static final Map<String, Object> sPixelXLProps =
             createGoogleSpoofProps("marlin", "Pixel XL",
                     "google/marlin/marlin:10/QP1A.191005.007.A3/5972272:user/release-keys");
-
-    private static final Map<String, Object> sNexus5XProps =
-            createGoogleSpoofProps("bullhead", "Nexus 5X",
-                    "google/bullhead/bullhead:8.0.0/OPR6.170623.013/4283548:user/release-keys");
 
     private static final Map<String, Object> sROG6Props = Map.of(
         "BRAND", "asus",
@@ -252,6 +254,14 @@ public class PixelPropsUtils {
     private static volatile boolean sIsPhotos = false;
     private static volatile boolean sIsGamesPropEnabled = SystemProperties.getBoolean(SYS_GAMES_SPOOF, false);
 
+    private static String getDeviceName(String fingerprint) {
+        String[] parts = fingerprint.split("/");
+        if (parts.length >= 2) {
+            return parts[1];
+        }
+        return "";
+    }
+
     public static void setProps(Context context) {
         final String packageName = context.getPackageName();
         final String processName = Application.getProcessName();
@@ -310,7 +320,20 @@ public class PixelPropsUtils {
         return props;
     }
 
+    private static void setVersionFieldString(String key, String value) {
+        try {
+            if (DEBUG) Log.d(TAG, "Defining prop " + key + " to " + value);
+            Field field = Build.VERSION.class.getDeclaredField(key);
+            field.setAccessible(true);
+            field.set(null, value);
+            field.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            Log.e(TAG, "Failed to set prop " + key, e);
+        }
+    }
+
     private static void setCertifiedPropsForGms() {
+        if (sCertifiedProps == null || sCertifiedProps.length == 0) return;
         final boolean was = isGmsAddAccountActivityOnTop();
         final TaskStackListener taskStackListener = new TaskStackListener() {
             @Override
@@ -325,9 +348,16 @@ public class PixelPropsUtils {
         };
         if (!was) {
             dlog("Spoofing build for GMS");
-            // Alter build parameters to Nexus 5X for avoiding hardware attestation enforcement
-            sNexus5XProps.forEach(PixelPropsUtils::setPropValue);
-            setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N);
+            setPropValue("BRAND", sCertifiedProps[0]);
+            setPropValue("MANUFACTURER", sCertifiedProps[1]);
+            setPropValue("ID", sCertifiedProps[2].isEmpty() ? getBuildID(sCertifiedProps[6]) : sCertifiedProps[2]);
+            setPropValue("DEVICE", sCertifiedProps[3].isEmpty() ? getDeviceName(sCertifiedProps[6]) : sCertifiedProps[3]);
+            setPropValue("PRODUCT", sCertifiedProps[4].isEmpty() ? getDeviceName(sCertifiedProps[6]) : sCertifiedProps[4]);
+            setPropValue("MODEL", sCertifiedProps[5]);
+            setPropValue("FINGERPRINT", sCertifiedProps[6]);
+            setPropValue("TYPE", sCertifiedProps[7].isEmpty() ? "user" : sCertifiedProps[7]);
+            setPropValue("TAGS", sCertifiedProps[8].isEmpty() ? "release-keys" : sCertifiedProps[8]);
+            setVersionFieldString("SECURITY_PATCH", sCertifiedProps[9].isEmpty() ? Build.VERSION.SECURITY_PATCH : sCertifiedProps[9]);
         } else {
             dlog("Skip spoofing build for GMS, because GmsAddAccountActivityOnTop");
         }

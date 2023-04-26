@@ -850,7 +850,7 @@ public class ScreenshotView extends FrameLayout implements
                         imageData.owner.getIdentifier(), true);
             } else {
                 startSharedTransition(
-                        imageData.viewTransition.get());
+                        imageData.editTransition.get());
             }
         });
         if (mQuickShareChip != null) {

@@ -95,9 +95,107 @@ public class PixelPropsUtils {
         "FINGERPRINT", "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys"
     );
 
+    private static final Map<String, Object> sK30UProps = Map.of(
+        "MANUFACTURER", "Xiaomi",
+        "MODEL", "M2006J10C"
+    );
+
+    private static final Map<String, Object> sROG6Props = Map.of(
+        "BRAND", "asus",
+        "MANUFACTURER", "asus",
+        "DEVICE", "AI2201",
+        "MODEL", "ASUS_AI2201"
+    );
+
+    private static final Map<String, Object> sXP5Props = Map.of(
+        "MANUFACTURER", "Sony",
+        "MODEL", "SO-52A"
+    );
+
+    private static final Map<String, Object> sOP8PProps = Map.of(
+        "MANUFACTURER", "OnePlus",
+        "MODEL", "IN2020"
+    );
+
+    private static final Map<String, Object> sOP9PProps = Map.of(
+        "MANUFACTURER", "OnePlus",
+        "MODEL", "LE2123"
+    );
+
+    private static final Map<String, Object> s11TProps = Map.of(
+        "MANUFACTURER", "Xiaomi",
+        "MODEL", "21081111RG"
+    );
+
+    private static final Map<String, Object> s13PProps = Map.of(
+        "BRAND", "Xiaomi",
+        "MANUFACTURER", "Xiaomi",
+        "MODEL", "2210132C"
+    );
+
+    private static final Map<String, Object> sF4Props = Map.of(
+        "MANUFACTURER", "Xiaomi",
+        "MODEL", "22021211RG"
+    );
+
     private static final List<String> sExtraPackages = List.of(
         "com.android.chrome",
         "com.android.vending"
+    );
+
+    private static final List<String> packagesToChangeK30U = List.of(
+        "com.pubg.imobile"
+    );
+
+    private static final List<String> packagesToChangeROG6 = List.of(
+        "com.activision.callofduty.shooter",
+        "com.ea.gp.fifamobile",
+        "com.gameloft.android.ANMP.GloftA9HM",
+        "com.madfingergames.legends",
+        "com.mobile.legends",
+        "com.pearlabyss.blackdesertm",
+        "com.pearlabyss.blackdesertm.gl"
+    );
+
+    private static final List<String> packagesToChangeXP5 = List.of(
+        "com.garena.game.codm",
+        "com.tencent.tmgp.kr.codm",
+        "com.vng.codmvn"
+    );
+
+    private static final List<String> packagesToChangeOP8P = List.of(
+        "com.netease.lztgglobal",
+        "com.pubg.krmobile",
+        "com.rekoo.pubgm",
+        "com.riotgames.league.wildrift",
+        "com.riotgames.league.wildrifttw",
+        "com.riotgames.league.wildriftvn",
+        "com.tencent.ig",
+        "com.tencent.tmgp.pubgmhd",
+        "com.vng.pubgmobile"
+    );
+
+    private static final List<String> packagesToChangeOP9P = List.of(
+        "com.epicgames.fortnite",
+        "com.epicgames.portal",
+        "com.tencent.lolm"
+    );
+
+    private static final List<String> packagesToChange11T = List.of(
+        "com.ea.gp.apexlegendsmobilefps",
+        "com.levelinfinite.hotta.gp",
+        "com.supercell.clashofclans",
+        "com.vng.mlbbvn"
+    );
+
+    private static final List<String> packagesToChangeMI13P = List.of(
+        "com.levelinfinite.sgameGlobal",
+        "com.tencent.tmgp.sgame"
+    );
+
+    private static final List<String> packagesToChangeF4 = List.of(
+        "com.dts.freefiremax",
+        "com.dts.freefireth"
     );
 
     private static final List<String> sPackageWhitelist = List.of(
@@ -127,6 +225,7 @@ public class PixelPropsUtils {
     private static final String PACKAGE_FINSKY = "com.android.vending";
     private static final String PACKAGE_GMS = "com.google.android.gms";
     private static final String PROCESS_GMS_UNSTABLE = PACKAGE_GMS + ".unstable";
+    private static final String SYS_GAMES_SPOOF = "persist.sys.pixelprops.games";
 
     private static final String GMS_FINGERPRINT =
             SystemProperties.get("ro.build.gms_fingerprint");
@@ -134,6 +233,7 @@ public class PixelPropsUtils {
     private static volatile boolean sIsGms = false;
     private static volatile boolean sIsFinsky = false;
     private static volatile boolean sIsPhotos = false;
+    private static volatile boolean sIsGamesPropEnabled = SystemProperties.getBoolean(SYS_GAMES_SPOOF, false);
 
     public static void setProps(Context context) {
         final String packageName = context.getPackageName();
@@ -166,6 +266,39 @@ public class PixelPropsUtils {
                 || sExtraPackages.contains(packageName)) {
             dlog("Setting pixel props for: " + packageName + " process: " + processName);
             sPixelProps.forEach(PixelPropsUtils::setPropValue);
+        }
+        setGamesProp(packageName, processName);
+    }
+
+    private static void setGamesProp(String packageName, String processName) {
+        if (!sIsGamesPropEnabled) {
+            // Games prop switch is turned off
+            return;
+        }
+        if (packagesToChangeK30U.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            sK30UProps.forEach(PixelPropsUtils::setPropValue);
+        } else if (packagesToChangeROG6.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            sROG6Props.forEach(PixelPropsUtils::setPropValue);
+        } else if (packagesToChangeXP5.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            sXP5Props.forEach(PixelPropsUtils::setPropValue);
+        } else if (packagesToChangeOP8P.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            sOP8PProps.forEach(PixelPropsUtils::setPropValue);
+        } else if (packagesToChangeOP9P.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            sOP9PProps.forEach(PixelPropsUtils::setPropValue);
+        } else if (packagesToChange11T.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            s11TProps.forEach(PixelPropsUtils::setPropValue);
+        } else if (packagesToChangeMI13P.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            s13PProps.forEach(PixelPropsUtils::setPropValue);
+        } else if (packagesToChangeF4.contains(packageName)) {
+            dlog("Setting Games props for: " + packageName + " process: " + processName);
+            sF4Props.forEach(PixelPropsUtils::setPropValue);
         }
     }
 

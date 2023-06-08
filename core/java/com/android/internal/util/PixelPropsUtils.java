@@ -18,9 +18,14 @@
 
  package com.android.internal.util;
 
+import android.app.ActivityTaskManager;
 import android.app.Application;
+import android.app.TaskStackListener;
+import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
+import android.os.Binder;
+import android.os.Process;
 import android.os.SystemProperties;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,18 +43,7 @@ public class PixelPropsUtils {
 
     // Packages to Spoof as Pixel 7 Pro
     private static final String[] sPixel7ProPackages = {
-        "com.google.android.apps.googleassistant",
-        "com.google.android.apps.nbu.files",
-        "com.google.android.apps.podcasts",
-        "com.google.android.apps.privacy.wildlife",
-        "com.google.android.apps.subscriptions.red",
-        "com.google.android.apps.tachyon",
-        "com.google.android.apps.wallpaper",
-        "com.google.android.contacts",
-        "com.google.android.deskclock",
-        "com.google.android.inputmethod.latin",
         "com.google.android.apps.emojiwallpaper",
-        "com.google.android.wallpaper.effects",
         "com.amazon.avod.thirdpartyclient",
         "com.android.chrome",
         "com.android.vending",
@@ -93,14 +87,6 @@ public class PixelPropsUtils {
         "PRODUCT", "marlin",
         "MODEL", "Pixel XL",
         "FINGERPRINT", "google/marlin/marlin:10/QP1A.191005.007.A3/5972272:user/release-keys"
-    );
-
-    private static final Map<String, Object> sPixelXLSFProps = Map.of(
-        "DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N_MR1,
-        "DEVICE", "marlin",
-        "PRODUCT", "marlin",
-        "MODEL", "Pixel XL",
-        "FINGERPRINT", "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys"
     );
 
     private static final Map<String, Object> sROG6Props = Map.of(
@@ -234,6 +220,11 @@ public class PixelPropsUtils {
     private static final String PROCESS_GMS_UNSTABLE = PACKAGE_GMS + ".unstable";
     private static final String SYS_GAMES_SPOOF = "persist.sys.pixelprops.games";
 
+    private static final ComponentName GMS_ADD_ACCOUNT_ACTIVITY = ComponentName.unflattenFromString(
+            "com.google.android.gms/.auth.uiflows.minutemaid.MinuteMaidActivity");
+
+    private static volatile String sProcessName;
+
     private static final String GMS_FINGERPRINT =
             SystemProperties.get("ro.build.gms_fingerprint");
 
@@ -245,6 +236,8 @@ public class PixelPropsUtils {
     public static void setProps(Context context) {
         final String packageName = context.getPackageName();
         final String processName = Application.getProcessName();
+
+        sProcessName = processName;
 
         if (DEBUG_PACKAGES) {
             Log.d(TAG, "setProps packageName=" + packageName + " processName=" + processName);
@@ -261,7 +254,7 @@ public class PixelPropsUtils {
 
         if (sIsGms) {
             dlog("Spoofing build for GMS");
-            sPixelXLSFProps.forEach(PixelPropsUtils::setPropValue);
+            setCertifiedPropsForGms();
         } else if (sIsPhotos) {
             dlog("Spoofing Pixel XL for Google Photos");
             sPixelXLProps.forEach(PixelPropsUtils::setPropValue);
@@ -275,6 +268,61 @@ public class PixelPropsUtils {
             sPixelProps.forEach(PixelPropsUtils::setPropValue);
         }
         setGamesProp(packageName, processName);
+    }
+
+    private static void setCertifiedPropsForGms() {
+        final boolean was = isGmsAddAccountActivityOnTop();
+        final TaskStackListener taskStackListener = new TaskStackListener() {
+            @Override
+            public void onTaskStackChanged() {
+                final boolean is = isGmsAddAccountActivityOnTop();
+                if (is ^ was) {
+                    dlog("GmsAddAccountActivityOnTop is:" + is + " was:" + was +
+                            ", killing myself!"); // process will restart automatically later
+                    Process.killProcess(Process.myPid());
+                }
+            }
+        };
+        if (!was) {
+            dlog("Spoofing build for GMS");
+            setPropValue("DEVICE", "marlin");
+            setPropValue("PRODUCT", "marlin");
+            setPropValue("MODEL", "Pixel XL");
+            setPropValue("FINGERPRINT", "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys");
+        } else {
+            dlog("Skip spoofing build for GMS, because GmsAddAccountActivityOnTop");
+        }
+        try {
+            ActivityTaskManager.getService().registerTaskStackListener(taskStackListener);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to register task stack listener!", e);
+        }
+    }
+
+    private static boolean isGmsAddAccountActivityOnTop() {
+        try {
+            final ActivityTaskManager.RootTaskInfo focusedTask =
+                    ActivityTaskManager.getService().getFocusedRootTaskInfo();
+            return focusedTask != null && focusedTask.topActivity != null
+                    && focusedTask.topActivity.equals(GMS_ADD_ACCOUNT_ACTIVITY);
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to get top activity!", e);
+        }
+        return false;
+    }
+
+    public static boolean shouldBypassTaskPermission(Context context) {
+        // GMS doesn't have MANAGE_ACTIVITY_TASKS permission
+        final int callingUid = Binder.getCallingUid();
+        final int gmsUid;
+        try {
+            gmsUid = context.getPackageManager().getApplicationInfo(PACKAGE_GMS, 0).uid;
+            dlog("shouldBypassTaskPermission: gmsUid:" + gmsUid + " callingUid:" + callingUid);
+        } catch (Exception e) {
+            Log.e(TAG, "shouldBypassTaskPermission: unable to get gms uid", e);
+            return false;
+        }
+        return gmsUid == callingUid;
     }
 
     private static void setGamesProp(String packageName, String processName) {
@@ -341,6 +389,10 @@ public class PixelPropsUtils {
     }
 
     private static void dlog(String msg) {
-      if (DEBUG) Log.d(TAG, msg);
+        if (DEBUG) Log.d(TAG, "[" + sProcessName + "] " + msg);
+    }
+
+    private static void keylog(String msg) {
+        if (DEBUG_KEYS) Log.d(TAG, "[" + sProcessName + "] " + msg);
     }
 }

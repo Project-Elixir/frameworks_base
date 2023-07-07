@@ -54,6 +54,7 @@ import com.android.systemui.display.DisplayModule;
 import com.android.systemui.doze.dagger.DozeComponent;
 import com.android.systemui.dreams.dagger.DreamModule;
 import com.android.systemui.dump.DumpManager;
+import com.android.systemui.elixir.ElixirQSModule;
 import com.android.systemui.flags.FeatureFlags;
 import com.android.systemui.flags.FlagsModule;
 import com.android.systemui.keyboard.KeyboardModule;
@@ -188,6 +189,7 @@ import javax.inject.Named;
             ControlsModule.class,
             DemoModeModule.class,
             DisableFlagsModule.class,
+            ElixirQSModule .class,
             FalsingModule.class,
             FlagsModule.class,
             SystemPropertiesFlagsModule.class,

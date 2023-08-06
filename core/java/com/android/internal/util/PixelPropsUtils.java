@@ -66,15 +66,19 @@ public class PixelPropsUtils {
         "BRAND", "google",
         "MANUFACTURER", "Google",
         "DEVICE", "redfin",
+        "HARDWARE", "redfin",
+        "ID", "TQ3A.230805.001",
         "PRODUCT", "redfin",
         "MODEL", "Pixel 5",
-        "FINGERPRINT", "google/redfin/redfin:13/TQ2A.230705.001/10216780:user/release-keys"
+        "FINGERPRINT", "google/redfin/redfin:13/TQ3A.230805.001/10316531:user/release-keys"
     );
 
     private static final Map<String, Object> sPixel7Props = Map.of(
         "BRAND", "google",
         "MANUFACTURER", "Google",
         "DEVICE", "cheetah",
+        "HARDWARE", "cheetah",
+        "ID", "TQ3A.230805.001",
         "PRODUCT", "cheetah",
         "MODEL", "Pixel 7 Pro",
         "FINGERPRINT", "google/cheetah/cheetah:13/TQ3A.230805.001/10316531:user/release-keys"
@@ -84,6 +88,8 @@ public class PixelPropsUtils {
         "BRAND", "google",
         "MANUFACTURER", "Google",
         "DEVICE", "marlin",
+        "HARDWARE", "marlin",
+        "ID", "QP1A.191005.007.A3",
         "PRODUCT", "marlin",
         "MODEL", "Pixel XL",
         "FINGERPRINT", "google/marlin/marlin:10/QP1A.191005.007.A3/5972272:user/release-keys"

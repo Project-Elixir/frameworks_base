@@ -95,11 +95,6 @@ public class PixelPropsUtils {
         "FINGERPRINT", "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys"
     );
 
-    private static final Map<String, Object> sK30UProps = Map.of(
-        "MANUFACTURER", "Xiaomi",
-        "MODEL", "M2006J10C"
-    );
-
     private static final Map<String, Object> sROG6Props = Map.of(
         "BRAND", "asus",
         "MANUFACTURER", "asus",
@@ -143,10 +138,6 @@ public class PixelPropsUtils {
         "com.android.vending"
     );
 
-    private static final List<String> packagesToChangeK30U = List.of(
-        "com.pubg.imobile"
-    );
-
     private static final List<String> packagesToChangeROG6 = List.of(
         "com.activision.callofduty.shooter",
         "com.ea.gp.fifamobile",
@@ -172,7 +163,8 @@ public class PixelPropsUtils {
         "com.riotgames.league.wildriftvn",
         "com.tencent.ig",
         "com.tencent.tmgp.pubgmhd",
-        "com.vng.pubgmobile"
+        "com.vng.pubgmobile",
+        "com.pubg.imobile"
     );
 
     private static final List<String> packagesToChangeOP9P = List.of(
@@ -275,10 +267,7 @@ public class PixelPropsUtils {
             // Games prop switch is turned off
             return;
         }
-        if (packagesToChangeK30U.contains(packageName)) {
-            dlog("Setting Games props for: " + packageName + " process: " + processName);
-            sK30UProps.forEach(PixelPropsUtils::setPropValue);
-        } else if (packagesToChangeROG6.contains(packageName)) {
+        if (packagesToChangeROG6.contains(packageName)) {
             dlog("Setting Games props for: " + packageName + " process: " + processName);
             sROG6Props.forEach(PixelPropsUtils::setPropValue);
         } else if (packagesToChangeXP5.contains(packageName)) {

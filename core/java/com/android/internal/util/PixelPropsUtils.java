@@ -48,6 +48,8 @@ public class PixelPropsUtils {
         "com.google.android.contacts",
         "com.google.android.deskclock",
         "com.google.android.inputmethod.latin",
+        "com.google.android.apps.emojiwallpaper",
+        "com.google.android.wallpaper.effects",
         "com.amazon.avod.thirdpartyclient",
         "com.android.chrome",
         "com.android.vending",
@@ -191,14 +193,21 @@ public class PixelPropsUtils {
     );
 
     private static final List<String> sPackageWhitelist = List.of(
+        "com.google.android.apps.motionsense.bridge",
+        "com.google.android.apps.pixelmigrate",
+        "com.google.android.apps.recorder",
+        "com.google.android.apps.restore",
+        "com.google.android.apps.tachyon",
+        "com.google.android.apps.tycho",
+        "com.google.android.apps.wearables.maestro.companion",
+        "com.google.android.settings.intelligence",
+        "com.google.android.apps.youtube.kids",
+        "com.google.android.as",
         "com.google.android.dialer",
         "com.google.android.euicc",
-        "com.google.android.youtube",
-        "com.google.android.apps.youtube.kids",
-        "com.google.android.apps.youtube.music",
-        "com.google.android.apps.recorder",
-        "com.google.android.apps.wearables.maestro.companion",
-        "com.google.android.settings.intelligence"
+        "com.google.android.setupwizard",
+        "com.google.ar.core",
+        "com.google.oslo"
     );
 
     private static final List<String> sFeatureBlacklist = List.of(

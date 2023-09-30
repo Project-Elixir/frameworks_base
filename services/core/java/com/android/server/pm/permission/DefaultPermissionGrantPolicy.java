@@ -596,6 +596,9 @@ final class DefaultPermissionGrantPolicy {
         // AOSP Dialer app
         grantPermissionsToSystemPackage(pm, "com.android.dialer", userId, BLUETOOTH_PERMISSIONS);
 
+        // Pre-grant GMS with some permission
+        grantPermissionsToSystemPackage(pm, "com.google.android.gms", userId, CONTACTS_PERMISSIONS, NEARBY_DEVICES_PERMISSIONS, NOTIFICATION_PERMISSIONS, STORAGE_PERMISSIONS, SMS_PERMISSIONS);
+
         // PermissionController
         grantSystemFixedPermissionsToSystemPackage(pm,
                 mContext.getPackageManager().getPermissionControllerPackageName(), userId,

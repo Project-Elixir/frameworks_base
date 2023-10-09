@@ -39,14 +39,13 @@ public class PixelPropsUtils {
 
     private static final String TAG = "PixelPropsUtils";
     private static final boolean DEBUG = true;
+    private static final boolean DEBUG_KEYS = false;
     private static final boolean DEBUG_PACKAGES = false;
 
     // Packages to Spoof as Pixel 7 Pro
     private static final String[] sPixel7ProPackages = {
         "com.google.android.apps.emojiwallpaper",
         "com.amazon.avod.thirdpartyclient",
-        "com.android.chrome",
-        "com.android.vending",
         "com.breel.wallpapers20",
         "com.disney.disneyplus",
         "com.microsoft.android.smsorganizer",
@@ -54,7 +53,13 @@ public class PixelPropsUtils {
         "com.nhs.online.nhsonline",
         "com.nothing.smartcenter",
         "in.startv.hotstar"
-};
+    };
+
+    // Packages to Spoof Samsung S23   
+    private static final String[] sS23Packages = {
+        "com.google.android.youtube",
+        "com.google.android.apps.youtube.music"
+    };
 
     private static final Map<String, Object> sPixelProps = Map.of(
         "BRAND", "google",
@@ -65,6 +70,14 @@ public class PixelPropsUtils {
         "PRODUCT", "redfin",
         "MODEL", "Pixel 5",
         "FINGERPRINT", "google/redfin/redfin:13/TQ3A.230901.001/10750268:user/release-keys"
+    );
+
+    private static final Map<String, Object> sS23Props = Map.of(
+        "BRAND", "samsung",
+        "MANUFACTURER", "samsung",
+        "DEVICE", "dm1q",
+        "MODEL", "SM-S911B",
+        "FINGERPRINT", "samsung/dm1qxxx/dm1q:13/TP1A.220624.014/S911BXXS3AWF7:user/release-keys"
     );
 
     private static final Map<String, Object> sPixel7Props = Map.of(
@@ -210,7 +223,9 @@ public class PixelPropsUtils {
         "PIXEL_2020_EXPERIENCE",
         "PIXEL_2020_MIDYEAR_EXPERIENCE",
         "PIXEL_2021_EXPERIENCE",
-        "PIXEL_2021_MIDYEAR_EXPERIENCE"
+        "PIXEL_2021_MIDYEAR_EXPERIENCE",
+        "PIXEL_2022_EXPERIENCE",
+        "PIXEL_2022_MIDYEAR_EXPERIENCE"
     );
 
     private static final String PACKAGE_PREFIX_GOOGLE = "com.google.android.";
@@ -259,8 +274,11 @@ public class PixelPropsUtils {
             dlog("Spoofing Pixel XL for Google Photos");
             sPixelXLProps.forEach(PixelPropsUtils::setPropValue);
         } else if ((Arrays.asList(sPixel7ProPackages).contains(packageName))) {
-            dlog("Spoofing Pixel 7 Pro");
+            dlog("Spoofing Pixel 7 Pro for :- " + packageName);
             sPixel7Props.forEach(PixelPropsUtils::setPropValue);
+        } else if ((Arrays.asList(sS23Packages).contains(packageName))) {
+            dlog("Spoofing Samsung S23 for :- " + packageName);
+            sS23Props.forEach(PixelPropsUtils::setPropValue);
         } else if ((packageName.startsWith(PACKAGE_PREFIX_GOOGLE)
                 && !packageName.toLowerCase().contains("camera"))
                 || sExtraPackages.contains(packageName)) {
@@ -356,7 +374,7 @@ public class PixelPropsUtils {
 
     private static void setPropValue(String key, Object value) {
         try {
-            dlog("Setting prop " + key + " to " + value.toString());
+            keylog("Setting prop " + key + " to " + value.toString());
             Field field = Build.class.getDeclaredField(key);
             field.setAccessible(true);
             field.set(null, value);

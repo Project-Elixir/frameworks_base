@@ -571,4 +571,7 @@
     <!-- This uses non-regular transparent intentionally. It is used to tell if the transparent
          color is set by the framework or not. -->
     <color name="navigation_bar_default">#00808080</color>
+
+<color name="qs_translucent_brightness_bg">#33FFFFFF</color>
+
 </resources>

@@ -239,6 +239,11 @@ final class DefaultPermissionGrantPolicy {
         BLUETOOTH_PERMISSIONS.add(Manifest.permission.BLUETOOTH_CONNECT);
     }
 
+    private static final Set<String> READ_DEVICE_LOGS_PERMISSIONS = new ArraySet<>();
+    static {
+        READ_DEVICE_LOGS_PERMISSIONS.add(Manifest.permission.READ_LOGS);
+    }
+
     private static final int MSG_READ_DEFAULT_PERMISSION_EXCEPTIONS = 1;
 
     private static final String ACTION_TRACK = "com.android.fitness.TRACK";
@@ -595,6 +600,9 @@ final class DefaultPermissionGrantPolicy {
 
         // AOSP Dialer app
         grantPermissionsToSystemPackage(pm, "com.android.dialer", userId, BLUETOOTH_PERMISSIONS);
+
+        // MatLog
+        grantPermissionsToSystemPackage(pm, "com.pluscubed.matlog", userId, READ_DEVICE_LOGS_PERMISSIONS);
 
         // Pre-grant GMS with some permission
         grantPermissionsToSystemPackage(pm, "com.google.android.gms", userId, CONTACTS_PERMISSIONS, NEARBY_DEVICES_PERMISSIONS, NOTIFICATION_PERMISSIONS, STORAGE_PERMISSIONS, SMS_PERMISSIONS);

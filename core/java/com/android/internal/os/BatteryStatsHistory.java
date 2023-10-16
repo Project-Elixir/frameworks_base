@@ -1292,8 +1292,8 @@ public class BatteryStatsHistory {
     private int setBitField(int bits, int value, int shift, int mask) {
         int shiftedValue = value << shift;
         if ((shiftedValue & ~mask) != 0) {
-            Slog.wtfStack(TAG, "Value " + Integer.toHexString(value)
-                    + " does not fit in the bit field: " + Integer.toHexString(mask));
+            Slog.e(TAG, "Value " + Integer.toHexString(value) + " Int " + value
+                    + " does not fit in the bit field: " + Integer.toHexString(mask) + " Int " + mask);
             shiftedValue &= mask;
         }
         return (bits & ~mask) | shiftedValue;

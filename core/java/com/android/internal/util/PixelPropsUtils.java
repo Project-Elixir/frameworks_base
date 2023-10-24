@@ -244,6 +244,7 @@ public class PixelPropsUtils {
             SystemProperties.get("ro.build.gms_fingerprint");
 
     private static volatile boolean sIsGms = false;
+    private static volatile boolean sIsFullGms = false;
     private static volatile boolean sIsFinsky = false;
     private static volatile boolean sIsPhotos = false;
     private static volatile boolean sIsGamesPropEnabled = SystemProperties.getBoolean(SYS_GAMES_SPOOF, false);
@@ -264,12 +265,16 @@ public class PixelPropsUtils {
         }
 
         sIsGms = packageName.equals(PACKAGE_GMS) && processName.equals(PROCESS_GMS_UNSTABLE);
+        sIsFullGms = packageName.equals(PACKAGE_GMS);
         sIsFinsky = packageName.equals(PACKAGE_FINSKY);
         sIsPhotos = packageName.equals(PACKAGE_GPHOTOS);
 
         if (sIsGms) {
             dlog("Spoofing build for GMS");
             setCertifiedPropsForGms();
+        } else if (sIsFullGms) {
+            dlog("Spoofing build time for GMS");
+            setPropValue("TIME", System.currentTimeMillis());
         } else if (sIsPhotos) {
             dlog("Spoofing Pixel XL for Google Photos");
             sPixelXLProps.forEach(PixelPropsUtils::setPropValue);

@@ -32,8 +32,12 @@ import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class PixelPropsUtils {
 
@@ -80,27 +84,23 @@ public class PixelPropsUtils {
         "FINGERPRINT", "samsung/dm1qxxx/dm1q:13/TP1A.220624.014/S911BXXS3AWF7:user/release-keys"
     );
 
-    private static final Map<String, Object> sPixel7Props = Map.of(
-        "BRAND", "google",
-        "MANUFACTURER", "Google",
-        "DEVICE", "cheetah",
-        "HARDWARE", "cheetah",
-        "ID", "UP1A.231005.007",
-        "PRODUCT", "cheetah",
-        "MODEL", "Pixel 7 Pro",
-        "FINGERPRINT", "google/cheetah/cheetah:14/UP1A.231005.007/10754064:user/release-keys"
-    );
+    private static final Map<String, Object> sPixel7Props =
+            createGoogleSpoofProps("cheetah", "Pixel 7 Pro",
+                    "google/cheetah/cheetah:14/UP1A.231005.007/10754064:user/release-keys");
 
-    private static final Map<String, Object> sPixelXLProps = Map.of(
-        "BRAND", "google",
-        "MANUFACTURER", "Google",
-        "DEVICE", "marlin",
-        "HARDWARE", "marlin",
-        "ID", "QP1A.191005.007.A3",
-        "PRODUCT", "marlin",
-        "MODEL", "Pixel XL",
-        "FINGERPRINT", "google/marlin/marlin:10/QP1A.191005.007.A3/5972272:user/release-keys"
-    );
+    private static String getBuildID(String fingerprint) {
+        Pattern pattern = Pattern.compile("([A-Za-z0-9]+\\.\\d+\\.\\d+\\.\\w+)");
+        Matcher matcher = pattern.matcher(fingerprint);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
+    }
+
+    private static final Map<String, Object> sPixelXLProps =
+            createGoogleSpoofProps("marlin", "Pixel XL",
+                    "google/marlin/marlin:10/QP1A.191005.007.A3/5972272:user/release-keys");
 
     private static final Map<String, Object> sROG6Props = Map.of(
         "BRAND", "asus",
@@ -291,6 +291,20 @@ public class PixelPropsUtils {
             sPixelProps.forEach(PixelPropsUtils::setPropValue);
         }
         setGamesProp(packageName, processName);
+    }
+
+    private static Map<String, Object> createGoogleSpoofProps(String device, String model, String fingerprint) {
+        Map<String, Object> props = new HashMap<>();
+        props.put("BRAND", "google");
+        props.put("MANUFACTURER", "Google");
+        props.put("ID", getBuildID(fingerprint));
+        props.put("DEVICE", device);
+        props.put("PRODUCT", device);
+        props.put("MODEL", model);
+        props.put("FINGERPRINT", fingerprint);
+        props.put("TYPE", "user");
+        props.put("TAGS", "release-keys");
+        return props;
     }
 
     private static void setCertifiedPropsForGms() {

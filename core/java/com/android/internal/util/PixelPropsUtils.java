@@ -66,7 +66,7 @@ public class PixelPropsUtils {
         "MANUFACTURER", "Google",
         "DEVICE", "redfin",
         "HARDWARE", "redfin",
-        "ID", "TQ3A.230901.001",
+        "ID", "UP1A.231005.007",
         "PRODUCT", "redfin",
         "MODEL", "Pixel 5",
         "FINGERPRINT", "google/redfin/redfin:14/UP1A.231005.007/10754064:user/release-keys"
@@ -85,7 +85,7 @@ public class PixelPropsUtils {
         "MANUFACTURER", "Google",
         "DEVICE", "cheetah",
         "HARDWARE", "cheetah",
-        "ID", "TQ3A.230901.001",
+        "ID", "UP1A.231005.007",
         "PRODUCT", "cheetah",
         "MODEL", "Pixel 7 Pro",
         "FINGERPRINT", "google/cheetah/cheetah:14/UP1A.231005.007/10754064:user/release-keys"

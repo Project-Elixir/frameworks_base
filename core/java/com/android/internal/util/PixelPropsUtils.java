@@ -322,10 +322,12 @@ public class PixelPropsUtils {
         };
         if (!was) {
             dlog("Spoofing build for GMS");
-            setPropValue("DEVICE", "marlin");
-            setPropValue("PRODUCT", "marlin");
-            setPropValue("MODEL", "Pixel XL");
-            setPropValue("FINGERPRINT", "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys");
+            setPropValue("MANUFACTURER", "Asus");
+            setPropValue("BRAND", "Asus");
+            setPropValue("DEVICE", "ASUS_X00HD_4");
+            setPropValue("PRODUCT", "WW_Phone");
+            setPropValue("MODEL", "ASUS_X00HD");
+            setPropValue("FINGERPRINT", "asus/WW_Phone/ASUS_X00HD_4:7.1.1/NMF26F/14.2016.1801.372-20180119:user/release-keys");
         } else {
             dlog("Skip spoofing build for GMS, because GmsAddAccountActivityOnTop");
         }

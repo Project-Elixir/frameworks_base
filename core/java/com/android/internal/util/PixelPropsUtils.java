@@ -322,12 +322,12 @@ public class PixelPropsUtils {
         };
         if (!was) {
             dlog("Spoofing build for GMS");
-            setPropValue("MANUFACTURER", "Asus");
-            setPropValue("BRAND", "Asus");
-            setPropValue("DEVICE", "ASUS_X00HD_4");
-            setPropValue("PRODUCT", "WW_Phone");
-            setPropValue("MODEL", "ASUS_X00HD");
-            setPropValue("FINGERPRINT", "asus/WW_Phone/ASUS_X00HD_4:7.1.1/NMF26F/14.2016.1801.372-20180119:user/release-keys");
+            // Alter build parameters to Nexus 5X for avoiding hardware attestation enforcement
+            setPropValue("DEVICE", "bullhead");
+            setPropValue("FINGERPRINT", "google/bullhead/bullhead:8.0.0/OPR6.170623.013/4283548:user/release-keys");
+            setPropValue("MODEL", "Nexus 5X");
+            setPropValue("PRODUCT", "bullhead");
+            setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N);
         } else {
             dlog("Skip spoofing build for GMS, because GmsAddAccountActivityOnTop");
         }
@@ -388,6 +388,18 @@ public class PixelPropsUtils {
             field.setAccessible(false);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             Log.e(TAG, "Failed to set prop " + key, e);
+        }
+    }
+
+    private static void setVersionField(String key, Object value) {
+        try {
+            dlog("Defining version field " + key + " to " + value.toString());
+            Field field = Build.VERSION.class.getDeclaredField(key);
+            field.setAccessible(true);
+            field.set(null, value);
+            field.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            Log.e(TAG, "Failed to set version field " + key, e);
         }
     }
 

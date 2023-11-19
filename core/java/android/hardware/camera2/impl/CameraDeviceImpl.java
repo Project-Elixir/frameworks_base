@@ -21,6 +21,7 @@ import static com.android.internal.util.function.pooled.PooledLambda.obtainRunna
 import android.app.ActivityThread;
 import android.annotation.NonNull;
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.hardware.ICameraService;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -1495,6 +1496,12 @@ public class CameraDeviceImpl extends CameraDevice
             if (format == inputFormat) {
                 validFormat = true;
             }
+        }
+
+        // Allow RAW formats, even when not advertised.
+        if (inputFormat == ImageFormat.RAW_PRIVATE || inputFormat == ImageFormat.RAW10
+                || inputFormat == ImageFormat.RAW12 || inputFormat == ImageFormat.RAW_SENSOR) {
+            return true;
         }
 
         if (validFormat == false) {

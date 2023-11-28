@@ -102,6 +102,10 @@ public class PixelPropsUtils {
             createGoogleSpoofProps("marlin", "Pixel XL",
                     "google/marlin/marlin:10/QP1A.191005.007.A3/5972272:user/release-keys");
 
+    private static final Map<String, Object> sNexus5XProps =
+            createGoogleSpoofProps("bullhead", "Nexus 5X",
+                    "google/bullhead/bullhead:8.0.0/OPR6.170623.013/4283548:user/release-keys");
+
     private static final Map<String, Object> sROG6Props = Map.of(
         "BRAND", "asus",
         "MANUFACTURER", "asus",
@@ -141,8 +145,7 @@ public class PixelPropsUtils {
     );
 
     private static final List<String> sExtraPackages = List.of(
-        "com.android.chrome",
-        "com.android.vending"
+        "com.android.chrome"
     );
 
     private static final List<String> packagesToChangeROG6 = List.of(
@@ -323,10 +326,7 @@ public class PixelPropsUtils {
         if (!was) {
             dlog("Spoofing build for GMS");
             // Alter build parameters to Nexus 5X for avoiding hardware attestation enforcement
-            setPropValue("DEVICE", "bullhead");
-            setPropValue("FINGERPRINT", "google/bullhead/bullhead:8.0.0/OPR6.170623.013/4283548:user/release-keys");
-            setPropValue("MODEL", "Nexus 5X");
-            setPropValue("PRODUCT", "bullhead");
+            sNexus5XProps.forEach(PixelPropsUtils::setPropValue);
             setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N);
         } else {
             dlog("Skip spoofing build for GMS, because GmsAddAccountActivityOnTop");

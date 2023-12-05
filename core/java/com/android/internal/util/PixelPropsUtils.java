@@ -46,11 +46,8 @@ public class PixelPropsUtils {
 
     private static final String TAG = "PixelPropsUtils";
     private static final boolean DEBUG = true;
-    private static final boolean DEBUG_KEYS = false;
+    private static final boolean DEBUG_KEYS = true;
     private static final boolean DEBUG_PACKAGES = false;
-
-    private static final String[] sCertifiedProps =
-            Resources.getSystem().getStringArray(R.array.config_certifiedBuildProperties);
 
     // Packages to Spoof as Pixel 7 Pro
     private static final String[] sPixel7ProPackages = {
@@ -333,7 +330,12 @@ public class PixelPropsUtils {
     }
 
     private static void setCertifiedPropsForGms() {
-        if (sCertifiedProps == null || sCertifiedProps.length == 0) return;
+        final String[] sCertifiedProps =
+            Resources.getSystem().getStringArray(R.array.config_certifiedBuildProperties);
+        if (sCertifiedProps == null || sCertifiedProps.length == 0) {
+            Log.w(TAG, "sCertifiedProps is empty, Safetynet may fail");
+            return;
+        }
         final boolean was = isGmsAddAccountActivityOnTop();
         final TaskStackListener taskStackListener = new TaskStackListener() {
             @Override
@@ -347,7 +349,7 @@ public class PixelPropsUtils {
             }
         };
         if (!was) {
-            dlog("Spoofing build for GMS");
+            dlog("Applying certified props for GMS");
             setPropValue("BRAND", sCertifiedProps[0]);
             setPropValue("MANUFACTURER", sCertifiedProps[1]);
             setPropValue("ID", sCertifiedProps[2].isEmpty() ? getBuildID(sCertifiedProps[6]) : sCertifiedProps[2]);

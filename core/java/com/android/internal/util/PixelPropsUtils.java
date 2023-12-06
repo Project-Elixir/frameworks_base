@@ -144,7 +144,8 @@ public class PixelPropsUtils {
     );
 
     private static final List<String> sExtraPackages = List.of(
-        "com.android.chrome"
+        "com.android.chrome",
+        "com.android.vending"
     );
 
     private static final List<String> packagesToChangeROG6 = List.of(

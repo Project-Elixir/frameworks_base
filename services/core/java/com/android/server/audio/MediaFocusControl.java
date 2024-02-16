@@ -21,7 +21,6 @@ import android.annotation.Nullable;
 import android.app.AppOpsManager;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.database.ContentObserver;
 import android.media.AudioAttributes;
 import android.media.AudioFocusInfo;
 import android.media.AudioManager;
@@ -103,15 +102,13 @@ public class MediaFocusControl implements PlayerFocusEnforcer {
     @GuardedBy("mExtFocusChangeLock")
     private long mExtFocusChangeCounter;
 
-    // Observer to work with per-app volume
-    private SettingsObserver mSettingsObserver;
-
     protected MediaFocusControl(Context cntxt, PlayerFocusEnforcer pfe) {
         mContext = cntxt;
         mAppOps = (AppOpsManager)mContext.getSystemService(Context.APP_OPS_SERVICE);
         mFocusEnforcer = pfe;
         final ContentResolver cr = mContext.getContentResolver();
-        mSettingsObserver = new SettingsObserver();
+        mMultiAudioFocusEnabled = Settings.System.getIntForUser(cr,
+                Settings.System.MULTI_AUDIO_FOCUS_ENABLED, 0, cr.getUserId()) != 0;
         initFocusThreading();
     }
 
@@ -1358,25 +1355,6 @@ public class MediaFocusControl implements PlayerFocusEnforcer {
         @Override
         public int hashCode() {
             return mUid;
-        }
-    }
-
-    private class SettingsObserver extends ContentObserver {
-
-        SettingsObserver() {
-            super(new Handler());
-            ContentResolver cr = mContext.getContentResolver();
-            cr.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SHOW_APP_VOLUME), true, this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            ContentResolver cr = mContext.getContentResolver();
-            mMultiAudioFocusEnabled = Settings.System.getIntForUser(cr,
-                    Settings.System.SHOW_APP_VOLUME, 1, cr.getUserId()) != 0;
-            updateMultiAudioFocus(mMultiAudioFocusEnabled);
         }
     }
 }

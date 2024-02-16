@@ -127,11 +127,8 @@ public class PhoneStatusBarPolicy
     private final String mSlotCamera;
     private final String mSlotSensorsOff;
     private final String mSlotScreenRecord;
-<<<<<<< HEAD
     private final String mSlotConnectedDisplay;
-=======
     private final String mSlotNfc;
->>>>>>> 6e14a72b8cd7... SystemUI: Add statusbar NFC icon
     private final int mDisplayId;
     private final SharedPreferences mSharedPreferences;
     private final DateFormatUtil mDateFormatUtil;
